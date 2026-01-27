@@ -8,7 +8,13 @@
 <body class="bg-gray-100 min-h-screen">
 
 <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">📝 Create Todo</h1>
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-3xl font-bold">📝 Create Todo</h1>
+        <a href="{{ route('todos.index') }}"
+           class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800">
+           ← Back
+        </a>
+    </div>
 
     @if(session('success'))
         <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
