@@ -10,7 +10,7 @@ class CategoryController extends Controller
     public function index()
     {
         $response = Http::withToken(session('api_token'))
-            ->get(config('app.url') . '/api/categories');
+            ->get(config('services.api.url') . '/categories');
 
         $categories = $response->json();
 
@@ -29,7 +29,7 @@ class CategoryController extends Controller
         ]);
 
         Http::withToken(session('api_token'))
-            ->post(config('app.url') . '/api/categories', [
+            ->post(config('services.api.url') . '/categories', [
                 'name' => $request->name
             ]);
 

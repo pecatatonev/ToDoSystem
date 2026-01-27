@@ -16,13 +16,13 @@ class TodoController extends Controller
         $categoryId = $request->query('category_id');
 
         $todos = Http::withToken(session('api_token'))
-            ->get(config('app.url') . '/api/todos', [
+            ->get(config('services.api.url') . '/todos', [
                 'category_id' => $categoryId
             ])
             ->json();
 
         $categories = Http::withToken(session('api_token'))
-            ->get(config('app.url') . '/api/categories')
+            ->get(config('services.api.url') . '/categories')
             ->json();
 
         return view('todos.index', compact('todos', 'categories', 'categoryId'));
@@ -32,7 +32,7 @@ class TodoController extends Controller
     public function create()
     {
         $categories = Http::withToken(session('api_token'))
-            ->get(config('app.url') . '/api/categories')
+            ->get(config('services.api.url') . '/categories')
             ->json();
 
 
@@ -43,7 +43,7 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         Http::withToken(session('api_token'))
-            ->post(config('app.url') . '/api/todos', $request->all());
+            ->post(config('services.api.url') . '/todos', $request->all());
 
 
         return redirect()
@@ -54,7 +54,7 @@ class TodoController extends Controller
     public function toggle($id)
     {
         Http::withToken(session('api_token'))
-            ->patch(config('app.url') . "/api/todos/{$id}/toggle");
+            ->patch(config('services.api.url') . "/todos/{$id}/toggle");
 
 
         return redirect()->back();
@@ -65,7 +65,7 @@ class TodoController extends Controller
     {
 
         Http::withToken(session('api_token'))
-            ->delete(config('app.url') . "/api/todos/{$id}");
+            ->delete(config('services.api.url') . "/todos/{$id}");
 
 
         return redirect()
@@ -76,7 +76,7 @@ class TodoController extends Controller
     public function edit($id)
     {
         $todo = Http::withToken(session('api_token'))
-            ->get(config('app.url') . "/api/todos/{$id}")
+            ->get(config('services.api.url') . "/todos/{$id}")
             ->json();
 
 
@@ -84,7 +84,7 @@ class TodoController extends Controller
 
 
         $categories = Http::withToken(session('api_token'))
-            ->get(config('app.url') . '/api/categories')
+            ->get(config('services.api.url') . '/categories')
             ->json();
 
 
@@ -103,7 +103,7 @@ class TodoController extends Controller
 
 
         Http::withToken(session('api_token'))
-            ->put(config('app.url') . "/api/todos/{$id}", $request->all());
+            ->put(config('services.api.url') . "/todos/{$id}", $request->all());
 
 
         return redirect()

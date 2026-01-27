@@ -18,7 +18,7 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $response = Http::post(config('app.url') . '/api/register', [
+        $response = Http::post(config('services.api.url') . '/register', [
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
@@ -43,7 +43,7 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-        $response = Http::post(config('app.url') . '/api/login', [
+        $response = Http::post(config('services.api.url') . '/login', [
             'email' => $request->email,
             'password' => $request->password,
         ]);
@@ -70,7 +70,7 @@ class AuthController extends Controller
             try {
                 Http::withHeaders([
                     'Authorization' => 'Bearer ' . $token,
-                ])->post(config('app.url') . '/api/logout');
+                ])->post(config('services.api.url') . '/logout');
             } catch (\Exception $e) {
                 \Log::error('API logout failed: ' . $e->getMessage());
             }
