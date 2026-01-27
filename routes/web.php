@@ -10,9 +10,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/register', fn() => view('auth.register'))->name('register.show');
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register.show');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/login', fn() => view('auth.login'))->name('login.show');
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login.show');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 
