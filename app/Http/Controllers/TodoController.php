@@ -10,84 +10,22 @@ use Illuminate\Support\Facades\Http;
 
 class TodoController extends Controller
 {
-    // public function index(Request $request)
-    // {
-    //     $todos = Todo::with('category')
-    //         ->where('user_id', auth()->id())
-    //         ->when(
-    //             $request->category_id,
-    //             fn($q) =>
-    //             $q->where('category_id', $request->category_id)
-    //         )
-    //         ->orderBy('created_at', 'desc')
-    //         ->get();
-
-    //     return view('todos.index')->with('todos', $todos);
-    //     return response()->json($todos);
-    // }
-
-    // public function create()
-    // {
-    //     $categories = Category::orderBy('name')
-    //         ->get();
-
-    //     return view('todos.create')->with('categories', $categories);
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     $data = $request->validate([
-    //         'title' => 'required|string|max:255',
-    //         'description' => 'nullable|string',
-    //         'priority' => 'required|in:low,medium,high',
-    //         'category_id' => 'required|exists:categories,id',
-    //     ]);
-
-
-    //     $todo = auth()->user()->todos()->create([
-    //         'title' => $data['title'],
-    //         'description' => $data['description'],
-    //         'priority' => TodoPriority::from($data['priority']),
-    //         'category_id' => $data['category_id'],
-    //     ]);
-    //     return redirect()->route('todos.index');
-    //     return response()->json($todo, 201);
-    // }
-
-    // public function toggle(Todo $todo)
-    // {
-    //     abort_if($todo->user_id !== auth()->id(), 403);
-
-
-    //     $todo->update([
-    //         'is_completed' => !$todo->is_completed
-    //     ]);
-
-
-    //     return response()->json($todo);
-    // }
-
-    // public function destroy(Todo $todo)
-    // {
-    //     abort_if($todo->user_id !== auth()->id(), 403);
-
-
-    //     $todo->delete();
-
-
-    //     return response()->json(['message' => 'Todo deleted']);
-    // }
-//fix api.todos make API_URL=http://localhost:8000/api in the env and in the config/services.php set 'url' => env('API_URL', 'http://localhost:8000/api'),
+    //fix api.todos make API_URL=http://localhost:8000/api in the env and in the config/services.php set 'url' => env('API_URL', 'http://localhost:8000/api'),
     public function index(Request $request)
     {
+        $categoryId = $request->query('category_id');
+
         $todos = Http::withToken(session('api_token'))
             ->get(config('app.url') . '/api/todos', [
-                'category_id' => $request->category_id
+                'category_id' => $categoryId
             ])
             ->json();
 
+        $categories = Http::withToken(session('api_token'))
+            ->get(config('app.url') . '/api/categories')
+            ->json();
 
-        return view('todos.index', compact('todos'));
+        return view('todos.index', compact('todos', 'categories', 'categoryId'));
     }
 
 
