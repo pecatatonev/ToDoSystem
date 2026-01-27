@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Http;
 
 class TodoController extends Controller
 {
-    //fix api.todos make API_URL=http://localhost:8000/api in the env and in the config/services.php set 'url' => env('API_URL', 'http://localhost:8000/api'),
     public function index(Request $request)
     {
         $categoryId = $request->query('category_id');
